@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fortune Cookie</title>
 
-    <!-- Google Font: Nunito -->
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Google Font: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
         /* General Styling */
@@ -17,7 +17,7 @@
             height: 100%;
             overflow: hidden; /* Disable scrolling */
             background: #2178ae; /* Bold blue background */
-            font-family: 'Nunito', sans-serif;
+            font-family: 'Poppins', sans-serif;
             text-align: center;
             display: flex;
             justify-content: center;
@@ -34,34 +34,12 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            overflow: hidden;
         }
-
-        /* Background Dots */
-        .dot {
-            position: absolute;
-            background-color: rgba(255, 255, 255, 0.3); /* Subtle white */
-            border-radius: 50%;
-            animation: move 10s infinite ease-in-out;
-        }
-
-        @keyframes move {
-            0%, 100% {
-                transform: translate(0, 0);
-            }
-            50% {
-                transform: translate(20px, 15px);
-            }
-        }
-
-        .dot.small { width: 10px; height: 10px; }
-        .dot.medium { width: 15px; height: 15px; }
-        .dot.large { width: 20px; height: 20px; }
 
         /* Header Image */
         header {
             width: 100%;
-            max-width: 300px; /* Smaller for mobile */
+            max-width: 400px; /* Larger header for desktop */
             margin-bottom: 30px; /* Extra space below header */
         }
 
@@ -72,8 +50,8 @@
 
         /* Instruction Text */
         h1 {
-            font-size: 1.2em; /* Smaller text */
-            font-weight: bold;
+            font-size: 1.8em; /* Larger text for desktop */
+            font-weight: 600;
             text-transform: uppercase; /* All caps */
             color: #cfe7cd; /* Light blue */
             margin-bottom: 20px;
@@ -85,15 +63,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 200px; /* Reduced size for mobile */
-            width: 250px; /* Reduced size for mobile */
+            height: 250px; /* Larger fortune cookie on desktop */
+            width: 300px;
             z-index: 1;
         }
 
         /* Cookie Halves */
         .cookie-half {
             position: absolute;
-            width: 40%; /* Smaller size */
+            width: 45%; /* Slightly larger size for desktop */
             transform-origin: bottom center; /* Rotate around the bottom center */
             transition: transform 0.6s ease; /* Smooth rotation */
         }
@@ -122,11 +100,12 @@
             position: absolute;
             background: white;
             color: #2178ae;
-            padding: 8px 12px; /* Adjusted padding for smaller box */
+            font-weight: 600; /* Bolder fortune text */
+            padding: 10px 15px;
             border-radius: 5px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            font-size: 0.9em; /* Smaller font size */
-            width: 180px; /* Reduced width for smaller screens */
+            font-size: 1em;
+            width: 200px; /* Adjusted size */
             opacity: 0;
             transform: scale(0.8);
             transition: opacity 0.5s ease, transform 0.5s ease;
@@ -139,20 +118,23 @@
         }
 
         /* Try Again Button */
-        button {
+        #reset-btn {
             margin-top: 20px;
             padding: 10px 20px;
-            font-size: 0.9em; /* Smaller button */
+            font-size: 0.9em; /* Slightly smaller for consistency */
             cursor: pointer;
-            background: #cfe7cd; /* Light blue */
-            color: #2178ae; /* Contrasting blue */
+            background: #f7b0be; /* Pink background */
+            color: #ef3c23; /* Orange text */
+            text-transform: uppercase; /* All caps */
             border: none;
             border-radius: 5px;
-            font-weight: bold;
+            font-weight: 600;
             transition: transform 0.3s ease;
+            position: absolute;
+            bottom: 10%; /* Fixed position to avoid shifting */
         }
 
-        button:hover {
+        #reset-btn:hover {
             transform: scale(1.1);
         }
 
@@ -163,18 +145,26 @@
 
         /* Responsive Styling */
         @media (max-width: 600px) {
+            header {
+                max-width: 300px; /* Smaller header on mobile */
+            }
+
+            h1 {
+                font-size: 1.2em; /* Smaller text on mobile */
+            }
+
             .cookie-container {
-                width: 200px;
+                width: 200px; /* Smaller fortune cookie on mobile */
                 height: 150px;
             }
 
             #fortune-box {
-                width: 150px;
-                font-size: 0.8em;
+                width: 150px; /* Smaller fortune box */
+                font-size: 0.9em;
             }
 
-            button {
-                font-size: 0.8em;
+            #reset-btn {
+                font-size: 0.8em; /* Smaller button on mobile */
             }
         }
     </style>
@@ -182,23 +172,16 @@
 <body>
     <!-- Layout Container -->
     <div class="container">
-        <!-- Background Dots -->
-        <div class="dot small" style="top: 10%; left: 20%;"></div>
-        <div class="dot medium" style="top: 30%; left: 70%;"></div>
-        <div class="dot large" style="top: 50%; left: 40%;"></div>
-        <div class="dot small" style="top: 70%; left: 10%;"></div>
-        <div class="dot medium" style="top: 80%; left: 80%;"></div>
-
         <!-- Header Image -->
         <header>
             <img src="img/header.png" alt="Fortune Cookie Header">
         </header>
 
         <!-- Instruction Text -->
-        <h1>Click the Cookie to Reveal Your Fortune</h1>
+        <h1>Tap the Cookie</h1>
 
         <!-- Fortune Cookie -->
-        <div class="cookie-container" id="cookie-container" onclick="openCookie()">
+        <div class="cookie-container" id="cookie-container" onclick="openCookie(event)">
             <img src="img/fortune-cookie-open-left.png" alt="Left Cookie Half" class="cookie-half" id="left-cookie">
             <img src="img/fortune-cookie-open-right.png" alt="Right Cookie Half" class="cookie-half" id="right-cookie">
             <div id="fortune-box">🍀 Your fortune will appear here 🍀</div>
@@ -231,19 +214,30 @@
         const rightCookie = document.getElementById("right-cookie");
         const resetButton = document.getElementById("reset-btn");
 
-        function openCookie() {
+        function openCookie(event) {
             cookieContainer.classList.add("opened");
             fortuneBox.textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
             resetButton.style.display = "block";
+
+            // Disable clicking on the fortune cookie
             cookieContainer.onclick = null;
+
+            // Prevent the reset action if the cookie is clicked
+            event.stopPropagation();
         }
 
         function resetCookie() {
+            // Reset everything to initial state
             cookieContainer.classList.remove("opened");
             fortuneBox.textContent = "🍀 Your fortune will appear here 🍀";
             resetButton.style.display = "none";
+
+            // Re-enable clicking on the cookie
             cookieContainer.onclick = openCookie;
         }
+
+        // Allow tapping anywhere on the body to reset
+        document.body.addEventListener("click", resetCookie);
     </script>
 </body>
 </html>
