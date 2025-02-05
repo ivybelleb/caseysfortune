@@ -10,91 +10,107 @@
             font-family: 'Arial', sans-serif;
             text-align: center;
             padding: 20px;
-            background: linear-gradient(to bottom, #B5C7C8, #A7BFC3);
-            color: #333;
+            background: #2178ae; /* Bold blue background */
+            color: #fac92c; /* Funky yellow text */
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
+            overflow: hidden;
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap');
-        h1 { 
-            font-family: 'Luckiest Guy', cursive; 
-            font-size: 2em;
-            font-weight: 700;
-            color: #333;
+        /* Header Image */
+        header {
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 20px;
         }
 
+        header img {
+            width: 100%;
+            height: auto;
+        }
 
-        /* Cookie Container */
+        /* Fortune Cookie Container */
         .cookie-container {
             position: relative;
-            width: 200px;
-            height: 200px;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
+            height: 200px;
+            width: 300px;
         }
 
-        /* Whole Cookie Image */
-        .cookie-whole {
-            width: 100%;
-            transition: opacity 0.3s ease;
+        /* Cookie Halves */
+        .cookie-half {
+            position: absolute;
+            width: 40%;
+            transition: all 0.5s ease;
         }
 
-        /* Broken Cookie Wrapper */
-        .broken-cookie {
-            display: none;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            width: 100%;
+        #left-cookie {
+            left: 50%;
+            transform: translateX(-50%);
         }
 
-        .broken-cookie img {
-            width: 50%;
+        #right-cookie {
+            right: 50%;
+            transform: translateX(50%);
         }
 
-        /* Fortune Message */
+        /* Opened Position */
+        .opened #left-cookie {
+            transform: translateX(-150%);
+        }
+
+        .opened #right-cookie {
+            transform: translateX(150%);
+        }
+
+        /* Fortune Box */
         #fortune-box {
             position: absolute;
             background: white;
-            padding: 10px;
-            border-radius: 2px;
-            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            color: #2178ae;
+            padding: 10px 15px;
+            border-radius: 5px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             font-size: 1em;
-            width: 180px;
-            text-align: center;
+            width: 200px;
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transform: scale(0.8);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            z-index: 1;
         }
 
-        /* Show Fortune */
-        #fortune-box.show {
+        .opened #fortune-box {
             opacity: 1;
+            transform: scale(1);
+        }
+
+        /* H1 Styling */
+        h1 {
+            font-size: 1.5em; /* Smaller to give focus to the header image */
+            margin-bottom: 20px;
         }
 
         /* Try Again Button */
         button {
-            margin-top: 20px;
+            margin-top: 30px;
             padding: 10px 20px;
             font-size: 1em;
             cursor: pointer;
-            background: #ff5733;
+            background: #fac92c; /* Funky yellow */
+            color: #2178ae; /* Contrasting blue */
             border: none;
             border-radius: 5px;
-            color: white;
             font-weight: bold;
-            transition: 0.3s;
-            display: none;
+            transition: transform 0.3s ease;
         }
 
         button:hover {
-            background: #e74c3c;
-            transform: scale(1.05);
+            transform: scale(1.1);
         }
 
         /* Mobile Optimization */
@@ -102,34 +118,36 @@
             body {
                 padding: 10px;
             }
+
             .cookie-container {
-                width: 150px;
+                width: 250px;
                 height: 150px;
             }
+
             #fortune-box {
+                width: 150px;
                 font-size: 0.9em;
-                width: 160px;
             }
         }
     </style>
 </head>
 <body>
 
-    <h1>Tap the Cookie to Reveal Your Fortune</h1>
+    <!-- Header Image -->
+    <header>
+        <img src="img/header.png" alt="Fortune Cookie Header">
+    </header>
 
-    <div class="cookie-container" onclick="breakCookie()">
-        <!-- Whole Cookie -->
-        <img src="img/fortune-cookie-whole.png" alt="Fortune Cookie" class="cookie-whole" id="cookie-img">
-
-        <!-- Broken Cookie -->
-        <div class="broken-cookie" id="broken-cookie">
-            <img src="img/fortune-cookie-open-left.png" alt="Left Cookie Half">
-            <div id="fortune-box">🍀 Your fortune will appear here 🍀</div>
-            <img src="img/fortune-cookie-open-right.png" alt="Right Cookie Half">
-        </div>
+    <!-- Fortune Cookie -->
+    <h1>Click the Cookie to Reveal Your Fortune</h1>
+    <div class="cookie-container" id="cookie-container" onclick="openCookie()">
+        <img src="img/fortune-cookie-left.png" alt="Left Cookie Half" class="cookie-half" id="left-cookie">
+        <img src="img/fortune-cookie-right.png" alt="Right Cookie Half" class="cookie-half" id="right-cookie">
+        <div id="fortune-box">🍀 Your fortune will appear here 🍀</div>
     </div>
 
-    <button id="reset-btn" onclick="resetCookie()">Try Again</button>
+    <!-- Reset Button -->
+    <button id="reset-btn" onclick="resetCookie()" style="display: none;">Try Again</button>
 
     <script>
         const fortunes = [
@@ -145,70 +163,33 @@
             "You are loved more than you know.",
             "Your heart has found its perfect match.",
             "Every day with you is its own kind of good luck.",
-            "A sweet surprise is coming your way.",
-            "Your happiness is contagious to those who love you.",
-            "Great love is built on small, thoughtful moments.",
-            "You are about to receive the best kind of good luck—a kiss.",
-            "Someone’s favorite place is right next to you.",
-            "Your heart and theirs were always meant to find each other.",
-            "A night of laughter and love is in your future.",
-            "The best part of today? Being loved by you.",
-            "Your heart is where someone feels most at home.",
-            "An affectionate glance will tell you everything you need to know.",
-            "A thoughtful gesture will deepen your bond today.",
-            "The best fortune in life is having someone like you.",
-            "You are exactly where you’re meant to be—with the one who loves you.",
-            "Someone is grateful every day to have you by their side.",
-            "A warm morning spoon is in your near future.",
-            "Lemon pasta and laughter will soon fill the air.",
-            "A popcorn-filled movie night will bring unexpected joy.",
-            "Pickleball domination is closer than you think.",
-            "A new restaurant experience will soon become a favorite.",
-            "A cozy night at the Drafthouse is in your near future.",
-            "Your next book club walk will lead to deep conversation.",
-            "A dog cuddle pile is imminent. Prepare accordingly.",
-            "A random forehead kiss is in your near future.",
-            "A familiar hand will reach for yours at just the right time.",
-            "A lazy Sunday morning will bring peace and happiness.",
-            "The next dog zoomies session will bring uncontrollable laughter.",
-            "A quiet evening in will turn into a perfect memory.",
-            "A meal cooked together will taste even better than usual.",
-            "A long hug will be exactly what is needed.",
-            "A shared meal, a quiet moment, and a familiar presence—pure happiness ahead."
+            "A sweet surprise is coming your way."
         ];
 
-        function breakCookie() {
-            const wholeCookie = document.getElementById("cookie-img");
-            const brokenCookie = document.getElementById("broken-cookie");
-            const fortuneBox = document.getElementById("fortune-box");
-            const resetButton = document.getElementById("reset-btn");
+        const cookieContainer = document.getElementById("cookie-container");
+        const fortuneBox = document.getElementById("fortune-box");
+        const leftCookie = document.getElementById("left-cookie");
+        const rightCookie = document.getElementById("right-cookie");
+        const resetButton = document.getElementById("reset-btn");
 
-            // Hide whole cookie
-            wholeCookie.style.display = "none";
-
-            // Show broken cookie and fortune
-            brokenCookie.style.display = "flex";
+        function openCookie() {
+            // Animate cookie halves and show the fortune
+            cookieContainer.classList.add("opened");
             fortuneBox.textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
-            fortuneBox.classList.add("show");
-
-            // Show the reset button
             resetButton.style.display = "block";
+
+            // Disable clicking after opening
+            cookieContainer.onclick = null;
         }
 
         function resetCookie() {
-            const wholeCookie = document.getElementById("cookie-img");
-            const brokenCookie = document.getElementById("broken-cookie");
-            const fortuneBox = document.getElementById("fortune-box");
-            const resetButton = document.getElementById("reset-btn");
-
-            // Reset to initial state
-            wholeCookie.style.display = "block";
-            brokenCookie.style.display = "none";
+            // Reset everything to initial state
+            cookieContainer.classList.remove("opened");
             fortuneBox.textContent = "🍀 Your fortune will appear here 🍀";
-            fortuneBox.classList.remove("show");
-
-            // Hide the reset button
             resetButton.style.display = "none";
+
+            // Re-enable clicking
+            cookieContainer.onclick = openCookie;
         }
     </script>
 
