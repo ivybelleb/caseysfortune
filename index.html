@@ -25,23 +25,6 @@
             position: relative;
         }
 
-        /* Background Dots */
-        .dot {
-            position: absolute;
-            border-radius: 50%;
-            opacity: 0.8;
-            animation: floatDots 10s infinite alternate ease-in-out;
-        }
-
-        @keyframes floatDots {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(calc(40px * var(--dirX)), calc(40px * var(--dirY))); }
-        }
-
-        .dot.small { width: 8px; height: 8px; }
-        .dot.medium { width: 12px; height: 12px; }
-        .dot.large { width: 16px; height: 16px; }
-
         /* Fortune Cookie Container */
         .container {
             position: relative;
@@ -142,8 +125,8 @@
             padding: 10px 20px;
             font-size: 0.9em;
             cursor: pointer;
-            background: #f7b0be;
-            color: #ef3c23;
+            background: #fac92c; /* Changed to Yellow */
+            color: #2178ae; /* Contrasting Blue */
             text-transform: uppercase;
             border: none;
             border-radius: 5px;
@@ -168,32 +151,6 @@
     </style>
 </head>
 <body>
-    <!-- Background Dots -->
-    <script>
-        const colors = ["#f7b0be", "#fac92c", "#f15a42", "#cfe5cc"];
-        for (let i = 0; i < 25; i++) {
-            let dot = document.createElement("div");
-            dot.classList.add("dot");
-
-            // Assign a random size
-            let sizes = ["small", "medium", "large"];
-            dot.classList.add(sizes[Math.floor(Math.random() * sizes.length)]);
-
-            // Assign a random color
-            dot.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-
-            // Random positioning
-            dot.style.top = Math.random() * 100 + "vh";
-            dot.style.left = Math.random() * 100 + "vw";
-
-            // Random movement direction
-            dot.style.setProperty("--dirX", Math.random() > 0.5 ? 1 : -1);
-            dot.style.setProperty("--dirY", Math.random() > 0.5 ? 1 : -1);
-
-            document.body.appendChild(dot);
-        }
-    </script>
-
     <!-- Layout Container -->
     <div class="container">
         <!-- Header Image -->
@@ -229,20 +186,33 @@
             "A night of laughter and love is in your future."
         ];
 
+        let isOpened = false;
+
         function openCookie(event) {
-            document.getElementById("cookie-container").classList.add("opened");
-            document.getElementById("fortune-box").textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
-            document.getElementById("reset-btn").style.display = "block";
+            if (!isOpened) {
+                document.getElementById("cookie-container").classList.add("opened");
+                document.getElementById("fortune-box").textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
+                document.getElementById("reset-btn").style.display = "block";
+                isOpened = true;
+            } else {
+                resetCookie();
+                setTimeout(openCookie, 500); // Reopen after closing animation
+            }
             event.stopPropagation();
         }
 
         function resetCookie() {
+            isOpened = false;
             document.getElementById("cookie-container").classList.remove("opened");
             document.getElementById("fortune-box").textContent = "";
             document.getElementById("reset-btn").style.display = "none";
         }
 
-        document.body.addEventListener("click", resetCookie);
+        document.body.addEventListener("click", function(event) {
+            if (!event.target.closest(".cookie-container")) {
+                resetCookie();
+            }
+        });
     </script>
 </body>
 </html>
