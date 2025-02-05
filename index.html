@@ -22,47 +22,53 @@
         /* Cookie Container */
         .cookie-container {
             position: relative;
-            width: 150px;
-            height: 150px;
+            width: 200px;
+            height: 200px;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        /* Cookie Image */
-        .cookie {
+        /* Whole Cookie Image */
+        .cookie-whole {
             width: 100%;
-            transition: transform 0.4s ease;
+            transition: opacity 0.3s ease;
         }
 
-        /* Cracked Cookie */
-        .cookie.cracked {
-            transform: rotate(-10deg) scale(0.9);
-            opacity: 0.8;
+        /* Broken Cookie Wrapper */
+        .broken-cookie {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            width: 100%;
+        }
+
+        .broken-cookie img {
+            width: 50%;
         }
 
         /* Fortune Message */
         #fortune-box {
             position: absolute;
-            top: 70%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             background: white;
             padding: 10px;
             border-radius: 5px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            font-size: 1.2em;
-            width: 250px;
+            font-size: 1em;
+            width: 180px;
             text-align: center;
             opacity: 0;
-            transition: opacity 0.5s ease, transform 0.5s ease;
+            transition: opacity 0.5s ease;
         }
 
-        /* Show Animation */
+        /* Show Fortune */
         #fortune-box.show {
             opacity: 1;
-            transform: translate(-50%, -20%);
         }
 
-        /* Button */
+        /* Try Again Button */
         button {
             margin-top: 20px;
             padding: 10px 20px;
@@ -74,6 +80,7 @@
             color: white;
             font-weight: bold;
             transition: 0.3s;
+            display: none;
         }
 
         button:hover {
@@ -87,12 +94,12 @@
                 padding: 10px;
             }
             .cookie-container {
-                width: 120px;
-                height: 120px;
+                width: 150px;
+                height: 150px;
             }
             #fortune-box {
-                font-size: 1em;
-                width: 200px;
+                font-size: 0.9em;
+                width: 160px;
             }
         }
     </style>
@@ -102,12 +109,18 @@
     <h1>Tap the Cookie to Reveal Your Fortune</h1>
 
     <div class="cookie-container" onclick="breakCookie()">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Fortune_cookie.jpg/220px-Fortune_cookie.jpg" 
-             alt="Fortune Cookie" class="cookie" id="cookie-img">
-        <div id="fortune-box">🍀 Your fortune will appear here 🍀</div>
+        <!-- Whole Cookie -->
+        <img src="img/fortune-cookie-whole.png" alt="Fortune Cookie" class="cookie-whole" id="cookie-img">
+
+        <!-- Broken Cookie -->
+        <div class="broken-cookie" id="broken-cookie">
+            <img src="img/fortune-cookie-left.png" alt="Left Cookie Half">
+            <div id="fortune-box">🍀 Your fortune will appear here 🍀</div>
+            <img src="img/fortune-cookie-right.png" alt="Right Cookie Half">
+        </div>
     </div>
 
-    <button onclick="resetCookie()">Try Again</button>
+    <button id="reset-btn" onclick="resetCookie()">Try Again</button>
 
     <script>
         const fortunes = [
@@ -118,7 +131,7 @@
             "A warm embrace is in your near future.",
             "You hold the key to someone’s happiest moments.",
             "Your kindness makes love grow stronger each day.",
-            "An unexpected “I love you” will brighten your day.",
+            "An unexpected 'I love you' will brighten your day.",
             "A lifetime of laughter and love awaits you.",
             "You are loved more than you know.",
             "Your heart has found its perfect match.",
@@ -152,47 +165,41 @@
             "A quiet evening in will turn into a perfect memory.",
             "A meal cooked together will taste even better than usual.",
             "A long hug will be exactly what is needed.",
-            "A shared meal, a quiet moment, and a familiar presence—pure happiness ahead.",
-            "A dog fart will clear the room in the near future. Escape while you can.",
-            "The next meal you eat will be interrupted by puppy dog eyes begging for a bite.",
-            "A mysterious roaring noise will soon be identified as “that was Bear.”",
-            "A sloppy steak may or may not be consumed in the near future. Check local ordinances.",
-            "An old man in a ‘Dan Flashes’ shirt will cross your path. The pattern was expensive.",
-            "You will soon witness a dog attempting to sit on another dog.",
-            "A surprise Spurs win will lead to excessive celebration.",
-            "A dog will sneeze directly into your face at an inopportune moment.",
-            "A future discussion about what to watch will take longer than the show itself.",
-            "You will soon see a dog doing something they know they shouldn’t.",
-            "A pickleball match will lead to serious but completely unnecessary competitiveness.",
-            "A dog will soon steal the warmest spot on the couch.",
-            "A sudden craving for Thai food is imminent.",
-            "The next time you sit down, a dog will instantly claim your lap.",
-            "A Wemby highlight will soon make you say ‘DID YOU SEE THAT?!’ out loud."
+            "A shared meal, a quiet moment, and a familiar presence—pure happiness ahead."
         ];
 
         function breakCookie() {
-            const cookie = document.getElementById("cookie-img");
+            const wholeCookie = document.getElementById("cookie-img");
+            const brokenCookie = document.getElementById("broken-cookie");
             const fortuneBox = document.getElementById("fortune-box");
-            
-            // Crack animation
-            cookie.classList.add("cracked");
+            const resetButton = document.getElementById("reset-btn");
 
-            // Random fortune selection
-            const randomIndex = Math.floor(Math.random() * fortunes.length);
-            fortuneBox.textContent = fortunes[randomIndex];
+            // Hide whole cookie
+            wholeCookie.style.display = "none";
 
-            // Show the fortune
+            // Show broken cookie and fortune
+            brokenCookie.style.display = "flex";
+            fortuneBox.textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
             fortuneBox.classList.add("show");
+
+            // Show the reset button
+            resetButton.style.display = "block";
         }
 
         function resetCookie() {
-            const cookie = document.getElementById("cookie-img");
+            const wholeCookie = document.getElementById("cookie-img");
+            const brokenCookie = document.getElementById("broken-cookie");
             const fortuneBox = document.getElementById("fortune-box");
+            const resetButton = document.getElementById("reset-btn");
 
-            // Reset the animation and fortune box
-            cookie.classList.remove("cracked");
-            fortuneBox.classList.remove("show");
+            // Reset to initial state
+            wholeCookie.style.display = "block";
+            brokenCookie.style.display = "none";
             fortuneBox.textContent = "🍀 Your fortune will appear here 🍀";
+            fortuneBox.classList.remove("show");
+
+            // Hide the reset button
+            resetButton.style.display = "none";
         }
     </script>
 
