@@ -97,17 +97,22 @@
             transform: translateX(150%) rotate(45deg);
         }
 
-        /* Fortune Box */
+        /* Fortune Box - Fixed Size */
         #fortune-box {
             position: absolute;
             background: white;
             color: #2178ae;
             font-weight: 600;
-            padding: 10px 15px;
+            padding: 12px 15px;
             border-radius: 5px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             font-size: 1em;
-            width: 200px;
+            width: 220px; /* Fixed width */
+            height: 50px; /* Fixed height to prevent shifting */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
             opacity: 0;
             transform: scale(0.8);
             transition: opacity 0.5s ease, transform 0.5s ease;
@@ -125,8 +130,8 @@
             padding: 10px 20px;
             font-size: 0.9em;
             cursor: pointer;
-            background: #fac92c; /* Changed to Yellow */
-            color: #2178ae; /* Contrasting Blue */
+            background: #fac92c; /* Yellow */
+            color: #2178ae;
             text-transform: uppercase;
             border: none;
             border-radius: 5px;
@@ -141,12 +146,21 @@
             transform: scale(1.1);
         }
 
+        /* Responsive Styling */
         @media (max-width: 600px) {
             header { max-width: 300px; }
             h1 { font-size: 1.2em; }
             .cookie-container { width: 200px; height: 150px; }
-            #fortune-box { width: 150px; font-size: 0.9em; }
-            #reset-btn { font-size: 0.8em; }
+            
+            #fortune-box {
+                width: 250px; /* Wider on mobile */
+                height: 55px; /* Slightly taller for readability */
+                font-size: 0.9em;
+            }
+
+            #reset-btn {
+                font-size: 0.8em;
+            }
         }
     </style>
 </head>
