@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fortune Cookie</title>
 
-    <!-- Google Font: Poppins -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Google Font: Poppins & Dancing Script -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
         /* General Styling */
@@ -119,21 +119,23 @@
             position: absolute;
             background: white;
             color: #2178ae;
+            font-family: 'Dancing Script', cursive; /* Cursive font for fortune */
             font-weight: 600;
             padding: 12px 15px;
             border-radius: 5px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            font-size: 1em;
-            width: 250px; /* Fixed width for all fortunes */
-            height: 55px; /* Fixed height */
-            display: flex;
-            align-items: center;
-            justify-content: center;
             text-align: center;
             opacity: 0;
             transform: scale(0.8);
             transition: opacity 0.5s ease, transform 0.5s ease;
             z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 220px; /* Default size */
+            height: 55px; /* Keeps it to 2 lines max */
+            font-size: clamp(0.9em, 3vw, 1.2em); /* Adjusts for long text */
+            text-wrap: balance;
         }
 
         .opened #fortune-box {
@@ -163,31 +165,25 @@
             transform: scale(1.1);
         }
 
+        /* Responsive Styling */
+        @media (max-width: 600px) {
+            header { max-width: 300px; }
+            h1 { font-size: 1.2em; }
+            .cookie-container { width: 220px; height: 170px; }
+
+            #fortune-box {
+                width: 250px; /* Wider on mobile */
+                height: 55px; /* Fixed height */
+                font-size: clamp(0.8em, 4vw, 1em); /* Adjust size dynamically */
+            }
+
+            #reset-btn {
+                font-size: 0.8em;
+            }
+        }
     </style>
 </head>
 <body>
-    <!-- Background Dots -->
-    <script>
-        const colors = ["#f7b0be", "#fac92c", "#f15a42", "#cfe5cc"];
-        for (let i = 0; i < 30; i++) {
-            let dot = document.createElement("div");
-            dot.classList.add("dot");
-
-            let sizes = ["small", "medium", "large"];
-            dot.classList.add(sizes[Math.floor(Math.random() * sizes.length)]);
-
-            dot.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-
-            dot.style.top = Math.random() * 100 + "vh";
-            dot.style.left = Math.random() * 100 + "vw";
-
-            dot.style.setProperty("--dirX", Math.random() > 0.5 ? 1 : -1);
-            dot.style.setProperty("--dirY", Math.random() > 0.5 ? 1 : -1);
-
-            document.body.appendChild(dot);
-        }
-    </script>
-
     <!-- Layout Container -->
     <div class="container">
         <!-- Header Image -->
@@ -215,36 +211,23 @@
             "A special someone thinks you are their greatest treasure.",
             "Good fortune follows those who love with their whole heart.",
             "A warm embrace is in your near future.",
-            "You hold the key to someone’s happiest moments.",
             "Your kindness makes love grow stronger each day.",
-            "An unexpected “I love you” will brighten your day.",
-            "A lifetime of laughter and love awaits you.",
-            "You are loved more than you know.",
-            "Your heart has found its perfect match.",
-            "Every day with you is its own kind of good luck.",
-            "A sweet surprise is coming your way.",
-            "The next time you sit down, a dog will instantly claim your lap.",
+            "A shared meal, a quiet moment, and a familiar presence—pure happiness ahead.",
+            "A dog cuddle pile is imminent. Prepare accordingly.",
+            "Pickleball domination is closer than you think.",
+            "A night of laughter and love is in your future.",
             "A dog will sneeze directly into your face at an inopportune moment.",
-            "A future discussion about what to watch will take longer than the show itself."
+            "A cozy night at the Drafthouse is in your near future."
         ];
 
-        let isOpened = false;
-
         function openCookie(event) {
-            if (!isOpened) {
-                document.getElementById("cookie-container").classList.add("opened");
-                document.getElementById("fortune-box").textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
-                document.getElementById("reset-btn").style.display = "block";
-                isOpened = true;
-            } else {
-                resetCookie();
-                setTimeout(openCookie, 500);
-            }
+            document.getElementById("cookie-container").classList.add("opened");
+            document.getElementById("fortune-box").textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
+            document.getElementById("reset-btn").style.display = "block";
             event.stopPropagation();
         }
 
         function resetCookie() {
-            isOpened = false;
             document.getElementById("cookie-container").classList.remove("opened");
             document.getElementById("fortune-box").textContent = "";
             document.getElementById("reset-btn").style.display = "none";
