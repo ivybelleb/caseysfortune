@@ -38,14 +38,52 @@
             z-index: 2;
         }
 
-        /* Fortune Box - Fixed Size */
+        /* Fortune Cookie Container */
+        .cookie-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 300px; /* Desktop size */
+            height: 250px;
+            z-index: 1;
+        }
+
+        /* Cookie Halves */
+        .cookie-half {
+            position: absolute;
+            width: 45%;
+            transform-origin: bottom center;
+            transition: transform 0.6s ease;
+        }
+
+        #left-cookie {
+            left: 50%;
+            transform: translateX(-50%) rotate(0deg);
+        }
+
+        #right-cookie {
+            right: 50%;
+            transform: translateX(50%) rotate(0deg);
+        }
+
+        /* Opened Position */
+        .opened #left-cookie {
+            transform: translateX(-120%) rotate(-45deg);
+        }
+
+        .opened #right-cookie {
+            transform: translateX(120%) rotate(45deg);
+        }
+
+        /* Fortune Box */
         #fortune-box {
             position: absolute;
             background: white;
             color: #2178ae;
-            font-family: 'Dancing Script', cursive; /* Cursive font for fortune */
+            font-family: 'Dancing Script', cursive; 
             font-weight: 600;
-            padding: 12px 15px;
+            padding: 10px;
             border-radius: 5px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             text-align: center;
@@ -56,10 +94,10 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 220px; /* Default size */
-            height: 55px; /* Keeps it to 2 lines max */
-            font-size: clamp(0.9em, 3vw, 1.2em); /* Adjusts for long text */
-            text-wrap: balance;
+            width: 240px; /* Fixed width */
+            height: 55px; /* Fixed height */
+            font-size: 1em;
+            line-height: 1.2;
         }
 
         .opened #fortune-box {
@@ -71,9 +109,9 @@
         #reset-btn {
             margin-top: 20px;
             padding: 10px 20px;
-            font-size: 0.9em;
+            font-size: 1em;
             cursor: pointer;
-            background: #fac92c; /* Yellow */
+            background: #fac92c;
             color: #2178ae;
             text-transform: uppercase;
             border: none;
@@ -89,6 +127,23 @@
             transform: scale(1.1);
         }
 
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            .cookie-container {
+                width: 220px; /* Smaller on mobile */
+                height: 170px;
+            }
+
+            #fortune-box {
+                width: 250px; /* Wider on mobile */
+                height: 55px; /* Fixed height */
+                font-size: 0.9em;
+            }
+
+            #reset-btn {
+                font-size: 0.9em;
+            }
+        }
     </style>
 </head>
 <body>
@@ -106,7 +161,7 @@
         <div class="cookie-container" id="cookie-container" onclick="openCookie(event)">
             <img src="img/fortune-cookie-open-left.png" alt="Left Cookie Half" class="cookie-half" id="left-cookie">
             <img src="img/fortune-cookie-open-right.png" alt="Right Cookie Half" class="cookie-half" id="right-cookie">
-            <div id="fortune-box"></div> <!-- Empty fortune box -->
+            <div id="fortune-box"></div>
         </div>
 
         <!-- Reset Button -->
@@ -119,60 +174,25 @@
             "A special someone thinks you are their greatest treasure.",
             "Good fortune follows those who love with their whole heart.",
             "A warm embrace is in your near future.",
-            "You hold the key to someone’s happiest moments.",
             "Your kindness makes love grow stronger each day.",
-            "An unexpected “I love you” will brighten your day.",
+            "An unexpected 'I love you' will brighten your day.",
             "A lifetime of laughter and love awaits you.",
             "You are loved more than you know.",
             "Your heart has found its perfect match.",
             "Every day with you is its own kind of good luck.",
             "A sweet surprise is coming your way.",
-            "Great love is built on small, thoughtful moments.",
-            "Someone’s favorite place is right next to you.",
-            "Your heart and theirs were always meant to find each other.",
-            "A night of laughter and love is in your future.",
-            "Your heart is where someone feels most at home.",
-            "An affectionate glance will tell you everything you need to know.",
-            "A thoughtful gesture will deepen your bond today.",
-            "You are exactly where you’re meant to be—with the one who loves you.",
             "Someone is grateful every day to have you by their side.",
-            "A warm morning spoon is in your near future.",
-            "Lemon pasta and laughter will soon fill the air.",
             "A popcorn-filled movie night will bring unexpected joy.",
-            "A dog cuddle pile is imminent. Prepare accordingly.",
-            "A random forehead kiss is in your near future.",
-            "A familiar hand will reach for yours at just the right time.",
-            "A quiet evening in will turn into a perfect memory.",
+            "A cozy night at the Drafthouse is in your near future.",
+            "The next dog zoomies session will bring uncontrollable laughter.",
+            "A meal cooked together will taste even better than usual.",
             "A long hug will be exactly what is needed.",
-            "A shared meal, a quiet moment, and a familiar presence—pure happiness ahead.",
-            "The next meal you eat will be interrupted by puppy dog eyes begging for a bite.",
-            "A surprise Spurs win will lead to excessive celebration.",
-            "A future discussion about what to watch will take longer than the show itself.",
-            "A pickleball match will lead to serious but completely unnecessary competitiveness.",
             "A dog will soon steal the warmest spot on the couch.",
-            "A sudden craving for Thai food is imminent.",
-            "The next time you sit down, a dog will instantly claim your lap.",
-            "A Wemby highlight will soon make you say ‘DID YOU SEE THAT?!’ out loud."
+            "A Wemby highlight will soon make you say 'DID YOU SEE THAT?!' out loud."
         ];
 
-        let usedFortunes = [];
-
-        function shuffleArray(array) {
-            for (let i = array.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [array[i], array[j]] = [array[j], array[i]];
-            }
-        }
-
         function getRandomFortune() {
-            if (fortunes.length === 0) {
-                fortunes = [...usedFortunes];
-                usedFortunes = [];
-                shuffleArray(fortunes);
-            }
-            let fortune = fortunes.pop();
-            usedFortunes.push(fortune);
-            return fortune;
+            return fortunes[Math.floor(Math.random() * fortunes.length)];
         }
 
         function openCookie(event) {
@@ -193,8 +213,6 @@
                 resetCookie();
             }
         });
-
-        shuffleArray(fortunes);
     </script>
 </body>
 </html>
