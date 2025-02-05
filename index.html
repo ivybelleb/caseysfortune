@@ -55,13 +55,12 @@
         /* Funky Shape */
         .funky-shape {
             position: absolute;
-            width: 200px;
-            height: 200px;
-            background: #cfe7cd; /* Updated light green color */
-            border-radius: 50%;
-            /*filter: blur(60px);*/
+            width: 150px; /* Smaller circle */
+            height: 150px;
+            background: #cfe7cd; /* Light green color */
+            border-radius: 50%; /* Smooth circle */
             z-index: 0;
-            top: 50%; /* Position behind the cookie */
+            top: 50%; /* Center vertically behind the cookie */
             transform: translateY(-50%);
         }
 
@@ -71,15 +70,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 200px;
-            width: 300px;
+            height: 250px; /* Increased height */
+            width: 350px; /* Increased width */
             z-index: 1;
         }
 
         /* Cookie Halves */
         .cookie-half {
             position: absolute;
-            width: 40%;
+            width: 50%; /* Increased size */
             transform-origin: bottom center; /* Rotate around the bottom center */
             transition: transform 0.6s ease; /* Smooth rotation */
         }
@@ -112,7 +111,7 @@
             border-radius: 5px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
             font-size: 1em;
-            width: 200px;
+            width: 250px; /* Wider box for larger cookie size */
             opacity: 0;
             transform: scale(0.8);
             transition: opacity 0.5s ease, transform 0.5s ease;
