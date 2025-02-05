@@ -22,9 +22,28 @@
             display: flex;
             justify-content: center;
             align-items: center;
+            position: relative;
         }
 
-        /* Centered Layout Container */
+        /* Background Dots */
+        .dot {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: moveDots 8s infinite alternate ease-in-out;
+        }
+
+        @keyframes moveDots {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(20px, -15px); }
+        }
+
+        /* Different Dot Sizes */
+        .dot.small { width: 8px; height: 8px; }
+        .dot.medium { width: 12px; height: 12px; }
+        .dot.large { width: 16px; height: 16px; }
+
+        /* Fortune Cookie Container */
         .container {
             position: relative;
             width: 100%;
@@ -34,6 +53,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            z-index: 2;
         }
 
         /* Header Image */
@@ -138,11 +158,6 @@
             transform: scale(1.1);
         }
 
-        /* Disable Button Jumping */
-        button:focus {
-            outline: none;
-        }
-
         /* Responsive Styling */
         @media (max-width: 600px) {
             header {
@@ -170,6 +185,28 @@
     </style>
 </head>
 <body>
+    <!-- Background Dots -->
+    <script>
+        const colors = ["#f7b0be", "#fac92c", "#f15a42", "#cfe5cc"];
+        for (let i = 0; i < 20; i++) {
+            let dot = document.createElement("div");
+            dot.classList.add("dot");
+
+            // Assign a random size
+            let sizes = ["small", "medium", "large"];
+            dot.classList.add(sizes[Math.floor(Math.random() * sizes.length)]);
+
+            // Assign a random color
+            dot.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+
+            // Random positioning
+            dot.style.top = Math.random() * 100 + "vh";
+            dot.style.left = Math.random() * 100 + "vw";
+
+            document.body.appendChild(dot);
+        }
+    </script>
+
     <!-- Layout Container -->
     <div class="container">
         <!-- Header Image -->
@@ -192,51 +229,18 @@
     </div>
 
     <script>
-        const fortunes = [
-            "The best things in life aren’t things—they’re moments with you.",
-            "You will soon be reminded how deeply you are loved.",
-            "A special someone thinks you are their greatest treasure.",
-            "Good fortune follows those who love with their whole heart.",
-            "A warm embrace is in your near future.",
-            "You hold the key to someone’s happiest moments.",
-            "Your kindness makes love grow stronger each day.",
-            "An unexpected 'I love you' will brighten your day.",
-            "A lifetime of laughter and love awaits you.",
-            "You are loved more than you know.",
-            "Your heart has found its perfect match.",
-            "Every day with you is its own kind of good luck.",
-            "A sweet surprise is coming your way."
-        ];
-
-        const cookieContainer = document.getElementById("cookie-container");
-        const fortuneBox = document.getElementById("fortune-box");
-        const leftCookie = document.getElementById("left-cookie");
-        const rightCookie = document.getElementById("right-cookie");
-        const resetButton = document.getElementById("reset-btn");
-
         function openCookie(event) {
-            cookieContainer.classList.add("opened");
-            fortuneBox.textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
-            resetButton.style.display = "block";
-
-            // Disable clicking on the fortune cookie
-            cookieContainer.onclick = null;
-
-            // Prevent the reset action if the cookie is clicked
+            document.getElementById("cookie-container").classList.add("opened");
+            document.getElementById("fortune-box").textContent = "🍀 Your fortune will appear here 🍀";
+            document.getElementById("reset-btn").style.display = "block";
             event.stopPropagation();
         }
 
         function resetCookie() {
-            // Reset everything to initial state
-            cookieContainer.classList.remove("opened");
-            fortuneBox.textContent = "🍀 Your fortune will appear here 🍀";
-            resetButton.style.display = "none";
-
-            // Re-enable clicking on the cookie
-            cookieContainer.onclick = openCookie;
+            document.getElementById("cookie-container").classList.remove("opened");
+            document.getElementById("reset-btn").style.display = "none";
         }
 
-        // Allow tapping anywhere on the body to reset
         document.body.addEventListener("click", resetCookie);
     </script>
 </body>
