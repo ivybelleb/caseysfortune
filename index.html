@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortune Cookie</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
+        #fortune { font-size: 1.5em; margin: 20px; }
+        button { padding: 10px 20px; font-size: 1.2em; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1>Click to Reveal Your Fortune</h1>
+    <p id="fortune">🍪 Your fortune will appear here 🍪</p>
+    <button onclick="showFortune()">Get Fortune</button>
+
+    <script>
+        const fortunes = [
+            "Love is on the menu, and you’ve ordered a lifetime supply.",
+            "Your greatest fortune is the love that surrounds you.",
+            "A special someone thinks you are their greatest treasure.",
+            "Your heart has found its perfect match.",
+            "An unexpected 'I love you' will brighten your day.",
+            "The love you give will always find its way back to you.",
+            "You are exactly where you’re meant to be—with the one who loves you."
+        ];
+
+        function showFortune() {
+            const randomIndex = Math.floor(Math.random() * fortunes.length);
+            document.getElementById("fortune").textContent = fortunes[randomIndex];
+        }
+    </script>
+
+</body>
+</html>
