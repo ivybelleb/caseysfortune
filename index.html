@@ -32,6 +32,17 @@
             height: auto;
         }
 
+        /* Funky Shape */
+        .funky-shape {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: #fac92c; /* Funky yellow */
+            border-radius: 50%;
+            filter: blur(60px);
+            z-index: 0;
+        }
+
         /* Fortune Cookie Container */
         .cookie-container {
             position: relative;
@@ -40,6 +51,7 @@
             justify-content: center;
             height: 200px;
             width: 300px;
+            z-index: 1;
         }
 
         /* Cookie Halves */
@@ -138,11 +150,14 @@
         <img src="img/header.png" alt="Fortune Cookie Header">
     </header>
 
+    <!-- Funky Shape -->
+    <div class="funky-shape"></div>
+
     <!-- Fortune Cookie -->
     <h1>Click the Cookie to Reveal Your Fortune</h1>
     <div class="cookie-container" id="cookie-container" onclick="openCookie()">
-        <img src="img/fortune-cookie-left.png" alt="Left Cookie Half" class="cookie-half" id="left-cookie">
-        <img src="img/fortune-cookie-right.png" alt="Right Cookie Half" class="cookie-half" id="right-cookie">
+        <img src="img/fortune-cookie-open-left.png" alt="Left Cookie Half" class="cookie-half" id="left-cookie">
+        <img src="img/fortune-cookie-open-right.png" alt="Right Cookie Half" class="cookie-half" id="right-cookie">
         <div id="fortune-box">🍀 Your fortune will appear here 🍀</div>
     </div>
 
