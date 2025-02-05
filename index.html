@@ -5,15 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fortune Cookie</title>
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding: 50px; }
-        #fortune { font-size: 1.5em; margin: 20px; }
-        button { padding: 10px 20px; font-size: 1.2em; cursor: pointer; }
+        /* General Styling */
+        body { 
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            color: #333;
+        }
+
+        /* Fortune Box */
+        #fortune-box {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            display: inline-block;
+            max-width: 400px;
+            font-size: 1.4em;
+            margin: 20px;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        /* Show animation */
+        #fortune-box.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Button Styling */
+        button {
+            padding: 12px 25px;
+            font-size: 1.2em;
+            cursor: pointer;
+            background: #ff5f6d;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #ff2e4e;
+            transform: scale(1.05);
+        }
     </style>
 </head>
 <body>
 
-    <h1>Click to Reveal Your Fortune</h1>
-    <p id="fortune">🍪 Your fortune will appear here 🍪</p>
+    <h1>🍪 Click to Reveal Your Fortune 🍪</h1>
+    
+    <div id="fortune-box">
+        <p id="fortune">Your fortune will appear here...</p>
+    </div>
+
     <button onclick="showFortune()">Get Fortune</button>
 
     <script>
@@ -24,12 +72,24 @@
             "Your heart has found its perfect match.",
             "An unexpected 'I love you' will brighten your day.",
             "The love you give will always find its way back to you.",
-            "You are exactly where you’re meant to be—with the one who loves you."
+            "You are exactly where you’re meant to be—with the one who loves you.",
+            "An exciting opportunity is on the horizon!",
+            "A moment of joy will surprise you soon!",
+            "You will find wisdom in the most unexpected place.",
+            "Good things come to those who believe in themselves.",
+            "Your dreams are closer than you think!",
+            "Today is the start of something wonderful in your life.",
+            "The universe has something magical planned for you.",
+            "Happiness is just around the corner!"
         ];
 
         function showFortune() {
             const randomIndex = Math.floor(Math.random() * fortunes.length);
+            const fortuneBox = document.getElementById("fortune-box");
             document.getElementById("fortune").textContent = fortunes[randomIndex];
+
+            // Add the animation class
+            fortuneBox.classList.add("show");
         }
     </script>
 
