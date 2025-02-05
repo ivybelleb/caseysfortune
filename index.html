@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fortune Cookie</title>
 
-    <!-- Google Font: Poppins & Dancing Script -->
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Dancing+Script:wght@400;600&display=swap" rel="stylesheet">
+    <!-- Google Font: Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
         /* General Styling */
@@ -38,13 +38,34 @@
             z-index: 2;
         }
 
+        /* Header Image */
+        header {
+            width: 100%;
+            max-width: 300px; /* Smaller header */
+            margin-bottom: 20px;
+        }
+
+        header img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Instruction Text */
+        h1 {
+            font-size: 1.5em;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: #cfe7cd; /* Fix color */
+            margin-bottom: 20px;
+        }
+
         /* Fortune Cookie Container */
         .cookie-container {
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 300px; /* Desktop size */
+            width: 300px;
             height: 250px;
             z-index: 1;
         }
@@ -81,7 +102,7 @@
             position: absolute;
             background: white;
             color: #2178ae;
-            font-family: 'Dancing Script', cursive; 
+            font-family: 'Poppins', sans-serif; /* Fix font */
             font-weight: 600;
             padding: 10px;
             border-radius: 5px;
@@ -129,14 +150,22 @@
 
         /* Mobile Adjustments */
         @media (max-width: 600px) {
+            header {
+                max-width: 250px; /* Even smaller on mobile */
+            }
+
+            h1 {
+                font-size: 1.2em;
+            }
+
             .cookie-container {
-                width: 220px; /* Smaller on mobile */
+                width: 220px;
                 height: 170px;
             }
 
             #fortune-box {
-                width: 250px; /* Wider on mobile */
-                height: 55px; /* Fixed height */
+                width: 250px;
+                height: 55px;
                 font-size: 0.9em;
             }
 
