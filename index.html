@@ -16,13 +16,9 @@
             width: 100%;
             height: 100%;
             overflow: hidden; /* Disable scrolling */
-        }
-
-        body {
-            font-family: 'Nunito', sans-serif; /* Nunito Font */
-            text-align: center;
             background: #2178ae; /* Bold blue background */
-            color: #fac92c; /* Funky yellow text */
+            font-family: 'Nunito', sans-serif;
+            text-align: center;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -38,13 +34,35 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            overflow: hidden;
         }
+
+        /* Background Dots */
+        .dot {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.3); /* Subtle white */
+            border-radius: 50%;
+            animation: move 10s infinite ease-in-out;
+        }
+
+        @keyframes move {
+            0%, 100% {
+                transform: translate(0, 0);
+            }
+            50% {
+                transform: translate(20px, 15px);
+            }
+        }
+
+        .dot.small { width: 10px; height: 10px; }
+        .dot.medium { width: 15px; height: 15px; }
+        .dot.large { width: 20px; height: 20px; }
 
         /* Header Image */
         header {
             width: 100%;
-            max-width: 400px;
-            margin-bottom: 40px; /* More space between header and fortune cookie */
+            max-width: 300px; /* Smaller for mobile */
+            margin-bottom: 30px; /* Extra space below header */
         }
 
         header img {
@@ -52,16 +70,13 @@
             height: auto;
         }
 
-        /* Funky Shape */
-        .funky-shape {
-            position: absolute;
-            width: 150px; /* Smaller circle */
-            height: 150px;
-            background: #cfe7cd; /* Light green color */
-            border-radius: 50%; /* Smooth circle */
-            z-index: 0;
-            top: 50%; /* Center vertically behind the cookie */
-            transform: translateY(-50%);
+        /* Instruction Text */
+        h1 {
+            font-size: 1.2em; /* Smaller text */
+            font-weight: bold;
+            text-transform: uppercase; /* All caps */
+            color: #cfe7cd; /* Light blue */
+            margin-bottom: 20px;
         }
 
         /* Fortune Cookie Container */
@@ -70,15 +85,15 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            height: 250px; /* Increased height */
-            width: 350px; /* Increased width */
+            height: 200px; /* Reduced size for mobile */
+            width: 250px; /* Reduced size for mobile */
             z-index: 1;
         }
 
         /* Cookie Halves */
         .cookie-half {
             position: absolute;
-            width: 50%; /* Increased size */
+            width: 40%; /* Smaller size */
             transform-origin: bottom center; /* Rotate around the bottom center */
             transition: transform 0.6s ease; /* Smooth rotation */
         }
@@ -107,11 +122,11 @@
             position: absolute;
             background: white;
             color: #2178ae;
-            padding: 10px 15px;
+            padding: 8px 12px; /* Adjusted padding for smaller box */
             border-radius: 5px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-            font-size: 1em;
-            width: 250px; /* Wider box for larger cookie size */
+            font-size: 0.9em; /* Smaller font size */
+            width: 180px; /* Reduced width for smaller screens */
             opacity: 0;
             transform: scale(0.8);
             transition: opacity 0.5s ease, transform 0.5s ease;
@@ -123,19 +138,13 @@
             transform: scale(1);
         }
 
-        /* H1 Styling */
-        h1 {
-            font-size: 1.5em; /* Smaller size to give focus to the header */
-            margin-bottom: 20px;
-        }
-
         /* Try Again Button */
         button {
-            margin-top: 30px;
+            margin-top: 20px;
             padding: 10px 20px;
-            font-size: 1em;
+            font-size: 0.9em; /* Smaller button */
             cursor: pointer;
-            background: #fac92c; /* Funky yellow */
+            background: #cfe7cd; /* Light blue */
             color: #2178ae; /* Contrasting blue */
             border: none;
             border-radius: 5px;
@@ -151,22 +160,44 @@
         button:focus {
             outline: none;
         }
+
+        /* Responsive Styling */
+        @media (max-width: 600px) {
+            .cookie-container {
+                width: 200px;
+                height: 150px;
+            }
+
+            #fortune-box {
+                width: 150px;
+                font-size: 0.8em;
+            }
+
+            button {
+                font-size: 0.8em;
+            }
+        }
     </style>
 </head>
 <body>
-
     <!-- Layout Container -->
     <div class="container">
+        <!-- Background Dots -->
+        <div class="dot small" style="top: 10%; left: 20%;"></div>
+        <div class="dot medium" style="top: 30%; left: 70%;"></div>
+        <div class="dot large" style="top: 50%; left: 40%;"></div>
+        <div class="dot small" style="top: 70%; left: 10%;"></div>
+        <div class="dot medium" style="top: 80%; left: 80%;"></div>
+
         <!-- Header Image -->
         <header>
             <img src="img/header.png" alt="Fortune Cookie Header">
         </header>
 
-        <!-- Funky Shape -->
-        <div class="funky-shape"></div>
+        <!-- Instruction Text -->
+        <h1>Click the Cookie to Reveal Your Fortune</h1>
 
         <!-- Fortune Cookie -->
-        <h1>Click the Cookie to Reveal Your Fortune</h1>
         <div class="cookie-container" id="cookie-container" onclick="openCookie()">
             <img src="img/fortune-cookie-open-left.png" alt="Left Cookie Half" class="cookie-half" id="left-cookie">
             <img src="img/fortune-cookie-open-right.png" alt="Right Cookie Half" class="cookie-half" id="right-cookie">
@@ -201,25 +232,18 @@
         const resetButton = document.getElementById("reset-btn");
 
         function openCookie() {
-            // Animate cookie halves and show the fortune
             cookieContainer.classList.add("opened");
             fortuneBox.textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
             resetButton.style.display = "block";
-
-            // Disable clicking after opening
             cookieContainer.onclick = null;
         }
 
         function resetCookie() {
-            // Reset everything to initial state
             cookieContainer.classList.remove("opened");
             fortuneBox.textContent = "🍀 Your fortune will appear here 🍀";
             resetButton.style.display = "none";
-
-            // Re-enable clicking
             cookieContainer.onclick = openCookie;
         }
     </script>
-
 </body>
 </html>
