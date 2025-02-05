@@ -6,41 +6,69 @@
     <title>Fortune Cookie</title>
     <style>
         /* General Styling */
-        body { 
+        body {
             font-family: 'Arial', sans-serif;
             text-align: center;
-            padding: 50px;
-            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            padding: 20px;
+            background: linear-gradient(to bottom, #ffcc66, #ff9966);
             color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
         }
 
-        /* Fortune Box */
+        /* Cookie Container */
+        .cookie-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            cursor: pointer;
+        }
+
+        /* Cookie Image */
+        .cookie {
+            width: 100%;
+            transition: transform 0.4s ease;
+        }
+
+        /* Cracked Cookie */
+        .cookie.cracked {
+            transform: rotate(-10deg) scale(0.9);
+            opacity: 0.8;
+        }
+
+        /* Fortune Message */
         #fortune-box {
+            position: absolute;
+            top: 70%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             background: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 10px;
+            border-radius: 5px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-            display: inline-block;
-            max-width: 400px;
-            font-size: 1.4em;
-            margin: 20px;
+            font-size: 1.2em;
+            width: 250px;
+            text-align: center;
             opacity: 0;
-            transform: scale(0.8);
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
 
-        /* Show animation */
+        /* Show Animation */
         #fortune-box.show {
             opacity: 1;
-            transform: scale(1);
+            transform: translate(-50%, -20%);
         }
 
-        /* Button Styling */
+        /* Button */
         button {
-            padding: 12px 25px;
-            font-size: 1.2em;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
             cursor: pointer;
-            background: #ff5f6d;
+            background: #ff5733;
             border: none;
             border-radius: 5px;
             color: white;
@@ -49,47 +77,122 @@
         }
 
         button:hover {
-            background: #ff2e4e;
+            background: #e74c3c;
             transform: scale(1.05);
+        }
+
+        /* Mobile Optimization */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .cookie-container {
+                width: 120px;
+                height: 120px;
+            }
+            #fortune-box {
+                font-size: 1em;
+                width: 200px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>🍪 Click to Reveal Your Fortune 🍪</h1>
-    
-    <div id="fortune-box">
-        <p id="fortune">Your fortune will appear here...</p>
+    <h1>Tap the Cookie to Reveal Your Fortune</h1>
+
+    <div class="cookie-container" onclick="breakCookie()">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Fortune_cookie.jpg/220px-Fortune_cookie.jpg" 
+             alt="Fortune Cookie" class="cookie" id="cookie-img">
+        <div id="fortune-box">🍀 Your fortune will appear here 🍀</div>
     </div>
 
-    <button onclick="showFortune()">Get Fortune</button>
+    <button onclick="resetCookie()">Try Again</button>
 
     <script>
         const fortunes = [
-            "Love is on the menu, and you’ve ordered a lifetime supply.",
-            "Your greatest fortune is the love that surrounds you.",
+            "The best things in life aren’t things—they’re moments with you.",
+            "You will soon be reminded how deeply you are loved.",
             "A special someone thinks you are their greatest treasure.",
+            "Good fortune follows those who love with their whole heart.",
+            "A warm embrace is in your near future.",
+            "You hold the key to someone’s happiest moments.",
+            "Your kindness makes love grow stronger each day.",
+            "An unexpected “I love you” will brighten your day.",
+            "A lifetime of laughter and love awaits you.",
+            "You are loved more than you know.",
             "Your heart has found its perfect match.",
-            "An unexpected 'I love you' will brighten your day.",
-            "The love you give will always find its way back to you.",
+            "Every day with you is its own kind of good luck.",
+            "A sweet surprise is coming your way.",
+            "Your happiness is contagious to those who love you.",
+            "Great love is built on small, thoughtful moments.",
+            "You are about to receive the best kind of good luck—a kiss.",
+            "Someone’s favorite place is right next to you.",
+            "Your heart and theirs were always meant to find each other.",
+            "A night of laughter and love is in your future.",
+            "The best part of today? Being loved by you.",
+            "Your heart is where someone feels most at home.",
+            "An affectionate glance will tell you everything you need to know.",
+            "A thoughtful gesture will deepen your bond today.",
+            "The best fortune in life is having someone like you.",
             "You are exactly where you’re meant to be—with the one who loves you.",
-            "An exciting opportunity is on the horizon!",
-            "A moment of joy will surprise you soon!",
-            "You will find wisdom in the most unexpected place.",
-            "Good things come to those who believe in themselves.",
-            "Your dreams are closer than you think!",
-            "Today is the start of something wonderful in your life.",
-            "The universe has something magical planned for you.",
-            "Happiness is just around the corner!"
+            "Someone is grateful every day to have you by their side.",
+            "A warm morning spoon is in your near future.",
+            "Lemon pasta and laughter will soon fill the air.",
+            "A popcorn-filled movie night will bring unexpected joy.",
+            "Pickleball domination is closer than you think.",
+            "A new restaurant experience will soon become a favorite.",
+            "A cozy night at the Drafthouse is in your near future.",
+            "Your next book club walk will lead to deep conversation.",
+            "A dog cuddle pile is imminent. Prepare accordingly.",
+            "A random forehead kiss is in your near future.",
+            "A familiar hand will reach for yours at just the right time.",
+            "A lazy Sunday morning will bring peace and happiness.",
+            "The next dog zoomies session will bring uncontrollable laughter.",
+            "A quiet evening in will turn into a perfect memory.",
+            "A meal cooked together will taste even better than usual.",
+            "A long hug will be exactly what is needed.",
+            "A shared meal, a quiet moment, and a familiar presence—pure happiness ahead.",
+            "A dog fart will clear the room in the near future. Escape while you can.",
+            "The next meal you eat will be interrupted by puppy dog eyes begging for a bite.",
+            "A mysterious roaring noise will soon be identified as “that was Bear.”",
+            "A sloppy steak may or may not be consumed in the near future. Check local ordinances.",
+            "An old man in a ‘Dan Flashes’ shirt will cross your path. The pattern was expensive.",
+            "You will soon witness a dog attempting to sit on another dog.",
+            "A surprise Spurs win will lead to excessive celebration.",
+            "A dog will sneeze directly into your face at an inopportune moment.",
+            "A future discussion about what to watch will take longer than the show itself.",
+            "You will soon see a dog doing something they know they shouldn’t.",
+            "A pickleball match will lead to serious but completely unnecessary competitiveness.",
+            "A dog will soon steal the warmest spot on the couch.",
+            "A sudden craving for Thai food is imminent.",
+            "The next time you sit down, a dog will instantly claim your lap.",
+            "A Wemby highlight will soon make you say ‘DID YOU SEE THAT?!’ out loud."
         ];
 
-        function showFortune() {
-            const randomIndex = Math.floor(Math.random() * fortunes.length);
+        function breakCookie() {
+            const cookie = document.getElementById("cookie-img");
             const fortuneBox = document.getElementById("fortune-box");
-            document.getElementById("fortune").textContent = fortunes[randomIndex];
+            
+            // Crack animation
+            cookie.classList.add("cracked");
 
-            // Add the animation class
+            // Random fortune selection
+            const randomIndex = Math.floor(Math.random() * fortunes.length);
+            fortuneBox.textContent = fortunes[randomIndex];
+
+            // Show the fortune
             fortuneBox.classList.add("show");
+        }
+
+        function resetCookie() {
+            const cookie = document.getElementById("cookie-img");
+            const fortuneBox = document.getElementById("fortune-box");
+
+            // Reset the animation and fortune box
+            cookie.classList.remove("cracked");
+            fortuneBox.classList.remove("show");
+            fortuneBox.textContent = "🍀 Your fortune will appear here 🍀";
         }
     </script>
 
