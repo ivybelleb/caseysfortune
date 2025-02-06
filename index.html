@@ -25,6 +25,23 @@
             position: relative;
         }
 
+        /* Background Dots */
+        .dot {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: floatDots 6s infinite alternate ease-in-out;
+        }
+
+        @keyframes floatDots {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(calc(40px * var(--dirX)), calc(40px * var(--dirY))); }
+        }
+
+        .dot.small { width: 8px; height: 8px; }
+        .dot.medium { width: 12px; height: 12px; }
+        .dot.large { width: 16px; height: 16px; }
+
         /* Fortune Cookie Container */
         .container {
             position: relative;
@@ -41,7 +58,7 @@
         /* Header Image */
         header {
             width: 100%;
-            max-width: 300px; /* Smaller header */
+            max-width: 300px;
             margin-bottom: 20px;
         }
 
@@ -55,7 +72,7 @@
             font-size: 1.5em;
             font-weight: 600;
             text-transform: uppercase;
-            color: #cfe7cd; /* Fix color */
+            color: #cfe7cd;
             margin-bottom: 20px;
         }
 
@@ -102,7 +119,7 @@
             position: absolute;
             background: white;
             color: #2178ae;
-            font-family: 'Poppins', sans-serif; /* Fix font */
+            font-family: 'Poppins', sans-serif;
             font-weight: 600;
             padding: 10px;
             border-radius: 5px;
@@ -115,8 +132,8 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 240px; /* Fixed width */
-            height: 55px; /* Fixed height */
+            width: 240px;
+            height: 55px;
             font-size: 1em;
             line-height: 1.2;
         }
@@ -150,83 +167,59 @@
 
         /* Mobile Adjustments */
         @media (max-width: 600px) {
-            header {
-                max-width: 250px; /* Even smaller on mobile */
-            }
-
-            h1 {
-                font-size: 1.2em;
-            }
-
-            .cookie-container {
-                width: 220px;
-                height: 170px;
-            }
-
-            #fortune-box {
-                width: 250px;
-                height: 55px;
-                font-size: 0.9em;
-            }
-
-            #reset-btn {
-                font-size: 0.9em;
-            }
+            header { max-width: 250px; }
+            h1 { font-size: 1.2em; }
+            .cookie-container { width: 220px; height: 170px; }
+            #fortune-box { width: 250px; height: 55px; font-size: 0.9em; }
+            #reset-btn { font-size: 0.9em; }
         }
     </style>
 </head>
 <body>
+    <!-- Background Dots -->
+    <script>
+        const colors = ["#f7b0be", "#fac92c", "#f15a42", "#cfe5cc"];
+        for (let i = 0; i < 30; i++) {
+            let dot = document.createElement("div");
+            dot.classList.add("dot");
+
+            let sizes = ["small", "medium", "large"];
+            dot.classList.add(sizes[Math.floor(Math.random() * sizes.length)]);
+
+            dot.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            dot.style.top = Math.random() * 100 + "vh";
+            dot.style.left = Math.random() * 100 + "vw";
+
+            dot.style.setProperty("--dirX", Math.random() > 0.5 ? 1 : -1);
+            dot.style.setProperty("--dirY", Math.random() > 0.5 ? 1 : -1);
+
+            document.body.appendChild(dot);
+        }
+    </script>
+
     <!-- Layout Container -->
     <div class="container">
-        <!-- Header Image -->
         <header>
             <img src="img/header.png" alt="Fortune Cookie Header">
         </header>
 
-        <!-- Instruction Text -->
         <h1>Tap the Cookie</h1>
 
-        <!-- Fortune Cookie -->
         <div class="cookie-container" id="cookie-container" onclick="openCookie(event)">
             <img src="img/fortune-cookie-open-left.png" alt="Left Cookie Half" class="cookie-half" id="left-cookie">
             <img src="img/fortune-cookie-open-right.png" alt="Right Cookie Half" class="cookie-half" id="right-cookie">
             <div id="fortune-box"></div>
         </div>
 
-        <!-- Reset Button -->
         <button id="reset-btn" onclick="resetCookie()">Try Again</button>
     </div>
 
     <script>
-        let fortunes = [
-            "You will soon be reminded how deeply you are loved.",
-            "A special someone thinks you are their greatest treasure.",
-            "Good fortune follows those who love with their whole heart.",
-            "A warm embrace is in your near future.",
-            "Your kindness makes love grow stronger each day.",
-            "An unexpected 'I love you' will brighten your day.",
-            "A lifetime of laughter and love awaits you.",
-            "You are loved more than you know.",
-            "Your heart has found its perfect match.",
-            "Every day with you is its own kind of good luck.",
-            "A sweet surprise is coming your way.",
-            "Someone is grateful every day to have you by their side.",
-            "A popcorn-filled movie night will bring unexpected joy.",
-            "A cozy night at the Drafthouse is in your near future.",
-            "The next dog zoomies session will bring uncontrollable laughter.",
-            "A meal cooked together will taste even better than usual.",
-            "A long hug will be exactly what is needed.",
-            "A dog will soon steal the warmest spot on the couch.",
-            "A Wemby highlight will soon make you say 'DID YOU SEE THAT?!' out loud."
-        ];
-
-        function getRandomFortune() {
-            return fortunes[Math.floor(Math.random() * fortunes.length)];
-        }
+        const fortunes = ["You will soon be reminded how deeply you are loved.", "A special someone thinks you are their greatest treasure.", "Good fortune follows those who love with their whole heart.", "A warm embrace is in your near future.", "You hold the key to someone’s happiest moments.", "Your kindness makes love grow stronger each day.", "An unexpected “I love you” will brighten your day.", "A lifetime of laughter and love awaits you.", "You are loved more than you know.", "Your heart has found its perfect match.", "Every day with you is its own kind of good luck.", "A sweet surprise is coming your way.", "Great love is built on small, thoughtful moments.", "Someone’s favorite place is right next to you.", "Your heart and theirs were always meant to find each other.", "A night of laughter and love is in your future.", "Your heart is where someone feels most at home.", "An affectionate glance will tell you everything you need to know.", "A thoughtful gesture will deepen your bond today.", "You are exactly where you’re meant to be—with the one who loves you.", "Someone is grateful every day to have you by their side.", "A warm morning spoon is in your near future.", "Lemon pasta and laughter will soon fill the air.", "A popcorn-filled movie night will bring unexpected joy.", "A dog cuddle pile is imminent. Prepare accordingly.", "A random forehead kiss is in your near future.", "A familiar hand will reach for yours at just the right time.", "A quiet evening in will turn into a perfect memory.", "A long hug will be exactly what is needed.", "A shared meal, a quiet moment, and a familiar presence—pure happiness ahead.", "The next meal you eat will be interrupted by puppy dog eyes begging for a bite.", "A surprise Spurs win will lead to excessive celebration.", "A future discussion about what to watch will take longer than the show itself.", "A pickleball match will lead to serious but completely unnecessary competitiveness.", "A dog will soon steal the warmest spot on the couch.", "A sudden craving for Thai food is imminent.", "The next time you sit down, a dog will instantly claim your lap.", "A Wemby highlight will soon make you say ‘DID YOU SEE THAT?!’ out loud."];
 
         function openCookie(event) {
             document.getElementById("cookie-container").classList.add("opened");
-            document.getElementById("fortune-box").textContent = getRandomFortune();
+            document.getElementById("fortune-box").textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
             document.getElementById("reset-btn").style.display = "block";
             event.stopPropagation();
         }
@@ -237,11 +230,7 @@
             document.getElementById("reset-btn").style.display = "none";
         }
 
-        document.body.addEventListener("click", function(event) {
-            if (!event.target.closest(".cookie-container")) {
-                resetCookie();
-            }
-        });
+        document.body.addEventListener("click", (event) => { if (!event.target.closest(".cookie-container")) resetCookie(); });
     </script>
 </body>
 </html>
