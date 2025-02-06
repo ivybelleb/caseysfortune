@@ -143,35 +143,12 @@
             transform: scale(1);
         }
 
-        /* Try Again Button */
-        #reset-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            font-size: 1em;
-            cursor: pointer;
-            background: #fac92c;
-            color: #2178ae;
-            text-transform: uppercase;
-            border: none;
-            border-radius: 5px;
-            font-weight: 600;
-            transition: transform 0.3s ease;
-            position: absolute;
-            bottom: 10%;
-            display: none;
-        }
-
-        #reset-btn:hover {
-            transform: scale(1.1);
-        }
-
         /* Mobile Adjustments */
         @media (max-width: 600px) {
             header { max-width: 250px; }
             h1 { font-size: 1.2em; }
             .cookie-container { width: 220px; height: 170px; }
             #fortune-box { width: 250px; height: 55px; font-size: 0.9em; }
-            #reset-btn { font-size: 0.9em; }
         }
     </style>
 </head>
@@ -205,32 +182,89 @@
 
         <h1>Tap the Cookie</h1>
 
-        <div class="cookie-container" id="cookie-container" onclick="openCookie(event)">
+        <div class="cookie-container" id="cookie-container">
             <img src="img/fortune-cookie-open-left.png" alt="Left Cookie Half" class="cookie-half" id="left-cookie">
             <img src="img/fortune-cookie-open-right.png" alt="Right Cookie Half" class="cookie-half" id="right-cookie">
             <div id="fortune-box"></div>
         </div>
-
-        <button id="reset-btn" onclick="resetCookie()">Try Again</button>
     </div>
 
     <script>
-        const fortunes = ["You will soon be reminded how deeply you are loved.", "A special someone thinks you are their greatest treasure.", "Good fortune follows those who love with their whole heart.", "A warm embrace is in your near future.", "You hold the key to someone’s happiest moments.", "Your kindness makes love grow stronger each day.", "An unexpected “I love you” will brighten your day.", "A lifetime of laughter and love awaits you.", "You are loved more than you know.", "Your heart has found its perfect match.", "Every day with you is its own kind of good luck.", "A sweet surprise is coming your way.", "Great love is built on small, thoughtful moments.", "Someone’s favorite place is right next to you.", "Your heart and theirs were always meant to find each other.", "A night of laughter and love is in your future.", "Your heart is where someone feels most at home.", "An affectionate glance will tell you everything you need to know.", "A thoughtful gesture will deepen your bond today.", "You are exactly where you’re meant to be—with the one who loves you.", "Someone is grateful every day to have you by their side.", "A warm morning spoon is in your near future.", "Lemon pasta and laughter will soon fill the air.", "A popcorn-filled movie night will bring unexpected joy.", "A dog cuddle pile is imminent. Prepare accordingly.", "A random forehead kiss is in your near future.", "A familiar hand will reach for yours at just the right time.", "A quiet evening in will turn into a perfect memory.", "A long hug will be exactly what is needed.", "A shared meal, a quiet moment, and a familiar presence—pure happiness ahead.", "The next meal you eat will be interrupted by puppy dog eyes begging for a bite.", "A surprise Spurs win will lead to excessive celebration.", "A future discussion about what to watch will take longer than the show itself.", "A pickleball match will lead to serious but completely unnecessary competitiveness.", "A dog will soon steal the warmest spot on the couch.", "A sudden craving for Thai food is imminent.", "The next time you sit down, a dog will instantly claim your lap.", "A Wemby highlight will soon make you say ‘DID YOU SEE THAT?!’ out loud."];
+        const fortunes = [
+            "You will soon be reminded how deeply you are loved.", 
+            "A special someone thinks you are their greatest treasure.", 
+            "Good fortune follows those who love with their whole heart.", 
+            "A warm embrace is in your near future.", 
+            "You hold the key to someone’s happiest moments.", 
+            "Your kindness makes love grow stronger each day.", 
+            "An unexpected “I love you” will brighten your day.", 
+            "A lifetime of laughter and love awaits you.", 
+            "You are loved more than you know.", 
+            "Your heart has found its perfect match.", 
+            "Every day with you is its own kind of good luck.", 
+            "A sweet surprise is coming your way.", 
+            "Great love is built on small, thoughtful moments.", 
+            "Someone’s favorite place is right next to you.", 
+            "Your heart and theirs were always meant to find each other.", 
+            "A night of laughter and love is in your future.", 
+            "Your heart is where someone feels most at home.", 
+            "An affectionate glance will tell you everything you need to know.", 
+            "A thoughtful gesture will deepen your bond today.", 
+            "You are exactly where you’re meant to be—with the one who loves you.", 
+            "Someone is grateful every day to have you by their side.", 
+            "A warm morning spoon is in your near future.", 
+            "Lemon pasta and laughter will soon fill the air.", 
+            "A popcorn-filled movie night will bring unexpected joy.", 
+            "A dog cuddle pile is imminent. Prepare accordingly.", 
+            "A random forehead kiss is in your near future.", 
+            "A familiar hand will reach for yours at just the right time.", 
+            "A quiet evening in will turn into a perfect memory.", 
+            "A long hug will be exactly what is needed.", 
+            "A shared meal, a quiet moment, and a familiar presence—pure happiness ahead.", 
+            "The next meal you eat will be interrupted by puppy dog eyes begging for a bite.", 
+            "A surprise Spurs win will lead to excessive celebration.", 
+            "A future discussion about what to watch will take longer than the show itself.", 
+            "A pickleball match will lead to serious but completely unnecessary competitiveness.", 
+            "A dog will soon steal the warmest spot on the couch.", 
+            "A sudden craving for Thai food is imminent.", 
+            "The next time you sit down, a dog will instantly claim your lap.", 
+            "A Wemby highlight will soon make you say ‘DID YOU SEE THAT?!’ out loud."
+        ];
 
-        function openCookie(event) {
+        let isOpened = false;
+
+        function getRandomFortune() {
+            return fortunes[Math.floor(Math.random() * fortunes.length)];
+        }
+
+        function openCookie() {
             document.getElementById("cookie-container").classList.add("opened");
-            document.getElementById("fortune-box").textContent = fortunes[Math.floor(Math.random() * fortunes.length)];
-            document.getElementById("reset-btn").style.display = "block";
+            document.getElementById("fortune-box").textContent = getRandomFortune();
+            isOpened = true;
+        }
+
+        function closeCookie() {
+            document.getElementById("cookie-container").classList.remove("opened");
+            document.getElementById("fortune-box").textContent = "";
+            isOpened = false;
+        }
+
+        function handleTap(event) {
+            if (!isOpened) {
+                openCookie(); // First tap opens the cookie
+            } else {
+                closeCookie(); // Any further taps close it...
+                setTimeout(openCookie, 500); // ...then immediately reopen with new fortune
+            }
             event.stopPropagation();
         }
 
-        function resetCookie() {
-            document.getElementById("cookie-container").classList.remove("opened");
-            document.getElementById("fortune-box").textContent = "";
-            document.getElementById("reset-btn").style.display = "none";
-        }
-
-        document.body.addEventListener("click", (event) => { if (!event.target.closest(".cookie-container")) resetCookie(); });
+        document.getElementById("cookie-container").addEventListener("click", handleTap);
+        document.body.addEventListener("click", function(event) {
+            if (!event.target.closest(".cookie-container")) {
+                closeCookie();
+            }
+        });
     </script>
 </body>
 </html>
